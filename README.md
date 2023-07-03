@@ -1,8 +1,6 @@
 # Coulomb Gas: spinful fermions
 
-Reference: [https://doi.org/10.48550/arXiv.2105.08644 ](https://arxiv.org/abs/2201.03156)
-
-m∗ of two-dimensional electron gas: a neural canonical transformation study
+Reference: [https://doi.org/10.48550/arXiv.2105.08644 ](https://arxiv.org/abs/2201.03156) m∗ of two-dimensional electron gas: a neural canonical transformation study
 
 
 Benchmark references: 
