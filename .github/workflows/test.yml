@@ -1,25 +1,35 @@
-name: Python CI
+name: pytest
 
 on: [push]
 
 jobs:
-  test:
+  build:
+
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: set PYTHONPATH
+        run: |
+          echo "PYTHONPATH=/home/runner/work/CoulombGasSpinful" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install --upgrade "jax[cpu]"
+          pip install git+https://github.com/deepmind/dm-haiku
+          pip install optax
+          pip install mpmath
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Run tests
-      run: |
-        python -m unittest discover -s test -p 'tests'
+          pip install typing_extensions
+      - name: Test with pytest
+        run: |
+          pytest
